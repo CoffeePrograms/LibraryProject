@@ -1,0 +1,115 @@
+{
+    "_LibraryHandler__books": [
+        {
+            "_Book__id": 1,
+            "_Book__title": "Диво Чудное. Том 1. Сказки Старой Руси",
+            "_Book__author": "Папсуев Роман Валентинович",
+            "_Book__genre": "Фэнтези",
+            "_Book__age_mark": 16,
+            "_Book__count": 2
+        },
+        {
+            "_Book__id": 5,
+            "_Book__title": "Мифы Древней Греции",
+            "_Book__author": "Кун Николай Альбертович",
+            "_Book__genre": "Фольклор",
+            "_Book__age_mark": 6,
+            "_Book__count": 4
+        },
+        {
+            "_Book__id": 2,
+            "_Book__title": "Безумная медицина",
+            "_Book__author": "Моррис Томас ",
+            "_Book__genre": "Научно-популярная медицинская литература",
+            "_Book__age_mark": 16,
+            "_Book__count": 1
+        },
+        {
+            "_Book__id": 3,
+            "_Book__title": "Триумфальная арка",
+            "_Book__author": "Ремарк Эрих Мария ",
+            "_Book__genre": "Роман",
+            "_Book__age_mark": 16,
+            "_Book__count": 5
+        }
+    ],
+    "_LibraryHandler__readers": [
+        {
+            "_Reader__total": 1,
+            "_Reader__id": "789421454",
+            "_Reader__fio": "Алёна Олеговна Берёзова",
+            "_Reader__birthdate": {
+                "year": 2012,
+                "month": 2,
+                "day": 16
+            },
+            "_Reader__telephone": "89615556677",
+            "_Reader__books": [
+                {
+                    "_BorrowedBook__id": 5,
+                    "_BorrowedBook__date_borrowed": {
+                        "year": 2022,
+                        "month": 6,
+                        "day": 7
+                    },
+                    "_BorrowedBook__date_will_return": {
+                        "year": 2022,
+                        "month": 6,
+                        "day": 21
+                    }
+                }
+            ]
+        },
+        {
+            "_Reader__total": 1,
+            "_Reader__id": "545678979",
+            "_Reader__fio": "Иван Васильевич Золотов",
+            "_Reader__birthdate": {
+                "year": 1999,
+                "month": 11,
+                "day": 25
+            },
+            "_Reader__telephone": "89612224457",
+            "_Reader__books": [
+                {
+                    "_BorrowedBook__id": 5,
+                    "_BorrowedBook__date_borrowed": {
+                        "year": 2022,
+                        "month": 8,
+                        "day": 4
+                    },
+                    "_BorrowedBook__date_will_return": {
+                        "year": 2022,
+                        "month": 8,
+                        "day": 18
+                    }
+                },
+                {
+                    "_BorrowedBook__id": 3,
+                    "_BorrowedBook__date_borrowed": {
+                        "year": 2022,
+                        "month": 8,
+                        "day": 7
+                    },
+                    "_BorrowedBook__date_will_return": {
+                        "year": 2022,
+                        "month": 8,
+                        "day": 28
+                    }
+                }
+            ]
+        },
+        {
+            "_Reader__total": 1,
+            "_Reader__id": "147854547",
+            "_Reader__fio": "Ольга Александровна Романова",
+            "_Reader__birthdate": {
+                "year": 1986,
+                "month": 5,
+                "day": 18
+            },
+            "_Reader__telephone": "89619998547",
+            "_Reader__books": []
+        }
+    ]
+}
