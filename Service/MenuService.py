@@ -9,7 +9,7 @@ from Data.Reader import Reader
 from Data.BorrowedBook import BorrowedBook
 from Handler.LibraryHandler import LibraryHandler
 from Service.JsonService import CustomEncoder, library_hook_for_read_json
-from Service.ListService import get_index_by_id, get_item_by_id
+from Service.ListService import get_item_by_id
 from Service.TextFileService import write_library_to_string, read_library_from_string, text_to_date
 
 
@@ -23,16 +23,16 @@ def main_menu():
     Главное меню программы
     """
 
-    file_type = choice_file_type()
+    file_type = choice_file_type_menu()
     if file_type is None:
         return
     data = load_data(file_type)
-    choice_category(data)
+    choice_category_menu(data)
     save_data(file_type, data)
 
 
 # region Work with file
-def choice_file_type() -> FileType | None:
+def choice_file_type_menu() -> FileType | None:
     file_type = None
     is_processed = False
     while is_processed is False:
@@ -116,6 +116,7 @@ def __check_date(value) -> date | bool:
 
 
 def __input_int() -> int:
+    option = ""
     is_processed = False
     while is_processed is False:
         option = input(">> ")
@@ -126,6 +127,7 @@ def __input_int() -> int:
 
 
 def __input_date() -> date:
+    option = ""
     is_processed = False
     while is_processed is False:
         option = input(">> ")
@@ -138,7 +140,7 @@ def __input_date() -> date:
 # endregion
 
 
-def books(data: LibraryHandler):
+def books_menu(data: LibraryHandler):
     is_processed = False
     while is_processed is False:
         print("--- Книги ---")
@@ -243,20 +245,10 @@ def books(data: LibraryHandler):
             case "4":
                 while is_processed is False:
                     print("Введите идентификатор книги")
-                    print("0 - Назад")
-                    option = input(">> ")
-                    match option:
-                        case "0":
-                            print()
-                        case _:
-                            try:
-                                option = int(option)
-                                if data.del_book(option) is True:
-                                    print('Книга удалена')
-                                    is_processed = True
-                            except ValueError:
-                                print('Введите число!')
-                is_processed = False
+                    option = __input_int()
+                    if data.del_book(option) is True:
+                        print('Книга удалена')
+                        is_processed = True
 
             case "0":
                 is_processed = True
@@ -267,7 +259,7 @@ def books(data: LibraryHandler):
         print()
 
 
-def readers(data):
+def readers_menu(data):
     is_processed = False
     while is_processed is False:
         print("--- Читатели ---")
@@ -284,21 +276,25 @@ def readers(data):
                 print(data.get_info_about_readers())
 
             case "2":
-                print(get_item_by_id(id_reader))
-                print(data.get_info_about_books_of_reader(id_reader))
+                option = input(">> ")
+                if get_item_by_id(data.readers, option) is None:
+                    print("Читатель не найден")
+                else:
+                    print(data.get_info_about_reader(option))
+                    print(data.get_info_about_books_of_reader(option))
 
             case "3":
                 print("--- Новый читатель ---")
                 print("Введите номер читательского билета")
                 option = __input_int()
-                reader = Book(option)
+                reader = Reader(option)
 
                 print("Введите ФИО")
                 option = input(">> ")
                 reader.fio = option
 
-                print("Введите дату рождения")
-                option = __input_date(">> ")
+                print("Введите дату рождения в формате год-месяц-день")
+                option = __input_date()
                 reader.birthdate = option
 
                 print("Введите телефон")
@@ -311,7 +307,7 @@ def readers(data):
                 is_processed = False
             case "4":
                 print("--- Редактирование информации о читателе ---")
-                print("Введите читательского билета")
+                print("Введите номер читательского билета")
                 option = __input_int()
                 if data.is_reader_exists(option) is False:
                     print('Не найден читатель с указанным читательским билетом')
@@ -322,95 +318,70 @@ def readers(data):
 
                     while is_processed is False:
                         print("Выберите поле для редактирования")
-                        print("1 - Название")
-                        print("2 - ФИО")
-                        print("3 - Дата рождения")
-                        print("4 - Номер телефона")
-                        print("5 - Добавить книгу")
-                        print("6 - Удалить книгу")
-                        print("7 - Сохранить изменения")
+                        print("1 - ФИО")
+                        print("2 - Дата рождения")
+                        print("3 - Номер телефона")
+                        print("4 - Добавить книгу")
+                        print("5 - Удалить книгу")
+                        print("6 - Сохранить изменения")
                         print("0 - Назад")
                         option = input(">> ")
 
                         match option:
                             case "1":
-                                print("Введите название")
-                                option = input(">> ")
-                                reader.title = option
-
-                            case "2":
                                 print("Введите ФИО")
                                 option = input(">> ")
                                 reader.fio = option
 
-                            case "3":
+                            case "2":
                                 print("Введите дату рождения в формате год-месяц-день")
-                                option = __input_date(">> ")
+                                option = __input_date()
                                 reader.birthdate = option
 
-                            case "4":
+                            case "3":
                                 print("Введите номер телефона")
                                 option = input(">> ")
                                 reader.telephone = option
 
-                            case "5":
+                            case "4":
                                 print("Введите ид книги")
                                 option = __input_int()
                                 if data.is_book_exists(option) is False:
                                     print("Книги с указанным ид не найдена в библиотеке")
-                                elif data.readers.is_book_exists(option) is True:
-                                    print("Книга с указанным ид уже взята читателем")
+                                elif reader.is_book_exists(option) is True:
+                                    print("Такая книга уже взята данным читателем")
                                 else:
                                     borrowed_book = BorrowedBook(option)
                                     print("Книга добавлена")
 
-                                print("Введите дату взятия книги в формате год-месяц-день")
-                                option = __input_date(">> ")
-                                borrowed_book.date_borrowed = option
+                                    print("Введите дату взятия книги в формате год-месяц-день")
+                                    option = __input_date()
+                                    borrowed_book.date_borrowed = option
 
-                                reader.add_book(borrowed_book)
+                                    reader.add_book(borrowed_book)
+
+                            case "5":
+                                print("Введите ид книги")
+                                option = __input_int()
+                                if reader.del_book(option) is True:
+                                    print('Книга удалена')
 
                             case "6":
-                                print("Введите ид книги")
-                                print("0 - Назад")
-                                option = input(">> ")
-                                match option:
-                                    case "0":
-                                        print()
-                                    case _:
-                                        try:
-                                            option = int(option)
-                                            if reader.del_book(option) is True:
-                                                print('Книга удалена')
-                                                is_processed = True
-                                        except ValueError:
-                                            print('Введите число!')
-
-                            case "7":
-                                data.edit_book(id_reader, reader)
+                                data.edit_reader(id_reader, reader)
                                 print('Информация о читателе отредактирована')
                                 is_processed = True
+
                             case "0":
                                 is_processed = True
                     is_processed = False
             case "5":
-                while is_processed is False:
-                    print("Введите идентификатор читателя")
-                    print("0 - Назад")
-                    option = input(">> ")
-                    match option:
-                        case "0":
-                            print()
-                        case _:
-                            try:
-                                option = int(option)
-                                if data.del_reader(option) is True:
-                                    print('Читатель удален')
-                                    is_processed = True
-                            except ValueError:
-                                print('Введите число!')
-                is_processed = False
-
+                print("Введите идентификатор читателя")
+                option = __input_int()
+                if data.is_reader_exists(option) is False:
+                    print("Не найден читатель с указанным читательским билетом")
+                else:
+                    data.del_reader(option)
+                    print('Читатель удален')
             case "0":
                 is_processed = True
 
@@ -420,7 +391,7 @@ def readers(data):
         print()
 
 
-def choice_category(data):
+def choice_category_menu(data):
     is_processed = False
     while is_processed is False:
         print("--- Выберите категорию ---")
@@ -430,9 +401,9 @@ def choice_category(data):
         option = input(">> ")
         match option:
             case "1":
-                books(data)
+                books_menu(data)
             case "2":
-                readers(data)
+                readers_menu(data)
             case "0":
                 is_processed = True
             case _:

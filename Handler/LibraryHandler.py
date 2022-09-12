@@ -40,12 +40,12 @@ class LibraryHandler:
         self.books.append(book)
 
     def del_book(self, id_book) -> bool:
-        book = get_item_by_id(self.__books, id_book)
-        if book is None:
+        index = get_index_by_id(self.__books, id_book)
+        if index == -1:
             print('Не найдена книга с указанным идентификатором')
             return False
         else:
-            self.books.remove(book)
+            del self.books[index]
             return True
 
     def is_book_exists(self, id_book) -> bool:
@@ -71,6 +71,14 @@ class LibraryHandler:
     # endregion
 
     # region Readers
+    def get_info_about_reader(self, id_reader) -> str:
+        reader = get_item_by_id(self.__readers, id_reader)
+        res = f"\n--- Читатель № {reader.id} ---\n"
+        res += reader.__str__()
+        res += f"Взято книг: {len(reader.books)}\n"
+        res += "---\n"
+        return res
+
     def get_info_about_readers(self) -> str:
         res = "\n--- Читатели ---\n"
         for item in self.__readers:
@@ -83,22 +91,27 @@ class LibraryHandler:
         self.readers.append(reader)
 
     def del_reader(self, id_reader):
-        reader = get_item_by_id(self.readers, id_reader)
-        self.readers.remove(reader)
+        index = get_index_by_id(self.readers, str(id_reader))
+        if index == -1:
+            print('Не найдена книга с указанным идентификатором')
+            return False
+        else:
+            del self.readers[index]
+            return True
 
     def is_reader_exists(self, id_reader) -> bool:
-        index_reader = get_index_by_id(self.__readers, id_reader)
+        index_reader = get_index_by_id(self.__readers, str(id_reader))
         if index_reader == -1:
             return False
         else:
             return True
 
     def get_value_of_reader_by_id(self, id_reader):
-        reader = get_item_by_id(self.__readers, id_reader)
+        reader = get_item_by_id(self.__readers, str(id_reader))
         return reader.copy()
 
     def edit_reader(self, id_reader, reader):
-        index_reader = get_index_by_id(self.readers, id_reader)
+        index_reader = get_index_by_id(self.readers, str(id_reader))
         self.readers[index_reader] = reader
 
     # endregion
@@ -112,12 +125,13 @@ class LibraryHandler:
         :param id_reader: ид читателя
         :return: строка
         """
-        index = get_index_by_id(self.__books, id_reader)
-        reader = self.__readers[index]
-        res = f"\n--- Книги читателя №{reader.id} ({reader.fio}) ---\n"
-        for id_book in reader.books:
-            index = get_index_by_id(self.__books, id_book)
-            res += self.books[index].__str__()
+        reader = get_item_by_id(self.__readers, str(id_reader))
+        if len(reader.books) == 0:
+            res = f"--- Нет книг у читателя №{reader.id} ({reader.fio}) ---"
+        else:
+            res = f"\n--- Книги читателя №{reader.id} ({reader.fio}) ---\n"
+            for book in reader.books:
+                res += book.__str__()
         return res
 
     def took_book(self, reader, book, days=14):
