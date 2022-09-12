@@ -1,5 +1,6 @@
 from datetime import datetime, date
 
+from Data.BorrowedBook import BorrowedBook
 from Service.ListService import get_item_by_id, get_index_by_id
 
 
@@ -113,5 +114,9 @@ class Reader:
         reader.fio = self.__fio
         reader.birthdate = self.__birthdate
         reader.telephone = self.__telephone
+        book: BorrowedBook
+        for item in self.books:
+            book = BorrowedBook(item.id, item.date_borrowed, item.date_will_return)
+            reader.books.append(book)
         return reader
     # endregion

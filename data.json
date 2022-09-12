@@ -96,6 +96,19 @@
                         "month": 8,
                         "day": 28
                     }
+                },
+                {
+                    "_BorrowedBook__id": 2,
+                    "_BorrowedBook__date_borrowed": {
+                        "year": 2020,
+                        "month": 12,
+                        "day": 9
+                    },
+                    "_BorrowedBook__date_will_return": {
+                        "year": 2022,
+                        "month": 9,
+                        "day": 26
+                    }
                 }
             ]
         },

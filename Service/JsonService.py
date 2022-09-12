@@ -2,6 +2,7 @@ from datetime import datetime
 from json import JSONEncoder
 
 from Data.Book import Book
+from Data.BorrowedBook import BorrowedBook
 from Data.Reader import Reader
 
 
@@ -21,8 +22,11 @@ def reader_from_string(json_dct):
     telephone = json_dct['_Reader__telephone']
     books_json = json_dct['_Reader__books']
     books = []
-    for index in books_json:
-        books.append(index)
+    for item in books_json:
+        temp_id = item['_BorrowedBook__id']
+        temp_date_borrowed = item['_BorrowedBook__date_borrowed']
+        temp_date_date_will_return = item['_BorrowedBook__date_will_return']
+        books.append(BorrowedBook(temp_id, temp_date_borrowed, temp_date_date_will_return))
     return Reader(id_reader, fio, birthdate, telephone, books)
 
 
