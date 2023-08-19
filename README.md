@@ -1,18 +1,17 @@
-# ООП приложение с консольным меню
+# Python console application with OOP
 
-## Предметная область
-Библиотека. Реализован упрощенный процесс взятия книги в аренду и ее возврат.
+## Subject area
+Library. A simplified process of renting a book and returning it has been implemented.
 
-## Хранение данных
-- JSON-файл;
-- TXT-файл.
+## Data storage
+- JSON file;
+- TXT file.
 
-
-## Категории классов
-Классы разбиты по папкам в соответсвии с их функционалом.
-| № | Папка | Назначение классов | Ссылки |
+## Class categories
+Classes are divided into folders according to their functionality.
+| No. | Folder | Purpose | Relationships |
 |---|---|---|---|
-| 1 | Data | Модели данных |  |
-| 2 | Handler | Управление моделями данных приложения | Data |
-| 3 | Service | Логика, не связанная с интерфейсом приложения | Data, Handler |
-| 4 | UnitTest | Тестирование приложения | Data |
+| 1 | Data | Data models | |
+| 2 | Handler | Managing application data models | Data |
+| 3 | Service | Logic unrelated to the application interface | Data, Handler |
+| 4 | UnitTest | Application testing | Data |
